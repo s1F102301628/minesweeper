@@ -8,13 +8,15 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.baseStyle}>
-        <div className={styles.boardStyle}>
-          <div className={styles.cellStyle}>
-            <div
-              className={styles.sampleStyle}
-              style={{ backgroundPosition: `${-30 * samplePos}px,0px` }}
-            />
-            <button onClick={() => setsamplePos((p) => (p + 1) % 14)}>sample</button>
+        <div className={styles.scoreboardStyle}>
+          <div className={styles.boardStyle}>
+            <div className={styles.cellStyle}>
+              <div
+                className={styles.sampleStyle}
+                style={{ backgroundPosition: `${-30 * samplePos}px,0px` }}
+              />
+              <button onClick={() => setsamplePos((p) => (p + 1) % 14)}>sample</button>
+            </div>
           </div>
         </div>
       </div>
