@@ -8,7 +8,11 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.baseStyle}>
-        <div className={styles.scoreboardStyle} />
+        <div className={styles.scorebaseStyle}>
+          <div className={styles.resetboardStyle} />
+          <div className={styles.scoreboardStyle} />
+          <div className={styles.timeboardStyle} />
+        </div>
         <div className={styles.boardWrapper}>
           <div className={styles.boardStyle}>
             <div className={styles.cellStyle}>
