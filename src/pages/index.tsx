@@ -3,8 +3,19 @@ import styles from './index.module.css';
 
 const Home = () => {
   const [samplePos, setsamplePos] = useState(0);
-  console.log(samplePos);
-
+  const [board, setBoard] = useState([
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ]);
+  const clickHandler = (x: number, y: number) => {
+    if (board[y][x] !== 0) return;
+  };
   return (
     <div className={styles.container}>
       <div className={styles.baseStyle}>
@@ -15,13 +26,21 @@ const Home = () => {
         </div>
         <div className={styles.boardWrapper}>
           <div className={styles.boardStyle}>
-            <div className={styles.cellStyle}>
-              <div
-                className={styles.sampleStyle}
-                style={{ backgroundPosition: `${-30 * samplePos}px,0px` }}
-              />
-              <button onClick={() => setsamplePos((p) => (p + 1) % 14)}>sample</button>
-            </div>
+            {board.map((row, y) =>
+              row.map((color, x) => (
+                <div
+                  className={styles.cellStyle}
+                  key={`${x}-${y}`}
+                  onClick={() => clickHandler(x, y)}
+                >
+                  <div
+                    className={styles.sampleStyle}
+                    style={{ backgroundPosition: `${-30 * samplePos}px,0px` }}
+                  />
+                  <button onClick={() => setsamplePos((p) => (p + 1) % 14)}>sample</button>
+                </div>
+              )),
+            )}
           </div>
         </div>
       </div>
