@@ -80,6 +80,8 @@
 
   .boardStyle {
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
     width: 360px;
     height: 360px;
     background-color: #c0c0c0;
@@ -92,8 +94,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border: 5px solid #fff;
     border-right-color: #808080;
     border-bottom-color: #808080;
