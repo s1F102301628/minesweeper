@@ -26,7 +26,14 @@ const Home = () => {
       [1, 0],
       [1, -1],
       [0, -1],
-    ];
+  ];
+  for (let i = 0; i < 8; i++) {
+    if (
+      newBoard[y + directions[i][0]][x + directions[i][1]] !== 0 &&
+    ) {
+      setBoard(newBoard);
+    }
+  }
   };
   return (
     <div className={styles.container}>
