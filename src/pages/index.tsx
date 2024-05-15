@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 
 const Home = () => {
@@ -14,6 +14,9 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
+  // useEffect(() => {
+  //   ();
+  // }, [board]);
   const clickHandler = (x: number, y: number) => {
     if (board[y][x] !== 0) return;
     const newBoard = structuredClone(board);
@@ -26,14 +29,15 @@ const Home = () => {
       [1, 0],
       [1, -1],
       [0, -1],
-  ];
-  for (let i = 0; i < 8; i++) {
-    if (
-      newBoard[y + directions[i][0]][x + directions[i][1]] !== 0 &&
-    ) {
-      setBoard(newBoard);
+    ];
+    for (let i = 0; i < 8; i++) {
+      if (
+        newBoard[y + directions[i][0]] !== undefined &&
+        newBoard[y + directions[i][0]][x + directions[i][1]] === 0
+      ) {
+        setBoard(newBoard);
+      }
     }
-  }
   };
   return (
     <div className={styles.container}>
@@ -56,7 +60,7 @@ const Home = () => {
                     className={styles.sampleStyle}
                     style={{ backgroundPosition: `${-30 * samplePos}px,0px` }}
                   />
-                  <button onClick={() => setsamplePos((p) => (p + 1) % 14)}>sample</button>
+                  <button onClick={() => setsamplePos((p) => (p + 1) % 14)} />
                 </div>
               )),
             )}
