@@ -80,6 +80,42 @@ const calculateNeighbors = (board: CellData[][]): CellData[][] => {
   );
 };
 
+const revealCell = (board: CellData[][], row: number, col: number): CellData[][] => {
+  const newBoard = board.map((row) => row.map((cell) => ({ ...cell }))); // 深いコピーを作成
+  const cell = newBoard[row][col];
+  if (cell.isRevealed || cell.isFlagged) return newBoard;
+  cell.isRevealed = true;
+
+  if (cell.neighborMines === 0 && !cell.isMine) {
+    const directions = [
+      [0, 1],
+      [1, 0],
+      [0, -1],
+      [-1, 0],
+      [1, 1],
+      [1, -1],
+      [-1, 1],
+      [-1, -1],
+    ];
+    directions.forEach(([dx, dy]) => {
+      const newRow = row + dx;
+      const newCol = col + dy;
+
+      if (
+        newRow >= 0 &&
+        newRow < newBoard.length &&
+        newCol >= 0 &&
+        newCol < newBoard[0].length &&
+        !newBoard[newRow][newCol].isRevealed
+      ) {
+        Object.assign(newBoard, revealCell(newBoard, newRow, newCol)); // 新しいボード状態を渡して再帰呼び出し
+      }
+    });
+  }
+
+  return newBoard;
+};
+
 const Home = () => {
   const [board, setBoard] = useState<CellData[][]>(generateEmptyBoard(9, 9));
   const [initialized, setInitialized] = useState(false);
@@ -89,48 +125,12 @@ const Home = () => {
       let newBoard = generateEmptyBoard(9, 9);
       newBoard = placeMines(newBoard, 10, [row, col]);
       newBoard = calculateNeighbors(newBoard);
+      newBoard = revealCell(newBoard, row, col); // 初期クリックでセルを開く
       setBoard(newBoard);
       setInitialized(true);
+    } else if (!board[row][col].isRevealed) {
+      setBoard((prevBoard) => revealCell(prevBoard, row, col));
     }
-    if (!board[row][col].isRevealed) {
-      revealCell(row, col);
-    }
-  };
-
-  const revealCell = (row: number, col: number) => {
-    const newBoard = JSON.parse(JSON.stringify(board)); // Use JSON method to deep copy
-    const cell = newBoard[row][col];
-    if (cell.isRevealed || cell.isFlagged) return;
-    cell.isRevealed = true;
-
-    if (cell.neighborMines === 0 && !cell.isMine) {
-      const directions = [
-        [0, 1],
-        [1, 0],
-        [0, -1],
-        [-1, 0],
-        [1, 1],
-        [1, -1],
-        [-1, 1],
-        [-1, -1],
-      ];
-      directions.forEach(([dx, dy]) => {
-        const newRow = row + dx;
-        const newCol = col + dy;
-
-        if (
-          newRow >= 0 &&
-          newRow < newBoard.length &&
-          newCol >= 0 &&
-          newCol < newBoard[0].length &&
-          !newBoard[newRow][newCol].isRevealed
-        ) {
-          revealCell(newRow, newCol);
-        }
-      });
-    }
-
-    setBoard(newBoard);
   };
 
   return (
