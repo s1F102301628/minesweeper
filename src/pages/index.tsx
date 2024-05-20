@@ -80,10 +80,9 @@ const calculateNeighbors = (board: CellData[][]): CellData[][] => {
   );
 };
 
-const revealCell = (board: CellData[][], row: number, col: number): CellData[][] => {
-  const newBoard = board.map((row) => row.map((cell) => ({ ...cell }))); // 深いコピーを作成
-  const cell = newBoard[row][col];
-  if (cell.isRevealed || cell.isFlagged) return newBoard;
+const revealCell = (board: CellData[][], row: number, col: number): void => {
+  const cell = board[row][col];
+  if (cell.isRevealed || cell.isFlagged) return;
   cell.isRevealed = true;
 
   if (cell.neighborMines === 0 && !cell.isMine) {
@@ -103,17 +102,15 @@ const revealCell = (board: CellData[][], row: number, col: number): CellData[][]
 
       if (
         newRow >= 0 &&
-        newRow < newBoard.length &&
+        newRow < board.length &&
         newCol >= 0 &&
-        newCol < newBoard[0].length &&
-        !newBoard[newRow][newCol].isRevealed
+        newCol < board[0].length &&
+        !board[newRow][newCol].isRevealed
       ) {
-        Object.assign(newBoard, revealCell(newBoard, newRow, newCol)); // 新しいボード状態を渡して再帰呼び出し
+        revealCell(board, newRow, newCol); // 再帰呼び出しでボードを更新
       }
     });
   }
-
-  return newBoard;
 };
 
 const Home = () => {
@@ -125,11 +122,13 @@ const Home = () => {
       let newBoard = generateEmptyBoard(9, 9);
       newBoard = placeMines(newBoard, 10, [row, col]);
       newBoard = calculateNeighbors(newBoard);
-      newBoard = revealCell(newBoard, row, col); // 初期クリックでセルを開く
+      revealCell(newBoard, row, col); // 初期クリックでセルを開く
       setBoard(newBoard);
       setInitialized(true);
     } else if (!board[row][col].isRevealed) {
-      setBoard((prevBoard) => revealCell(prevBoard, row, col));
+      const newBoard = board.map((row) => row.map((cell) => ({ ...cell }))); // 深いコピーを作成
+      revealCell(newBoard, row, col);
+      setBoard(newBoard);
     }
   };
 
@@ -150,9 +149,7 @@ const Home = () => {
                   key={`${x}-${y}`}
                   onClick={() => handleClick(y, x)}
                 >
-                  <div className={styles.sampleStyle}>
-                    {cell.isRevealed && (cell.isMine ? '💣' : cell.neighborMines || '')}
-                  </div>
+                  {cell.isRevealed && (cell.isMine ? '💣' : cell.neighborMines || '')}
                 </div>
               )),
             )}
