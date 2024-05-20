@@ -3,7 +3,18 @@ import styles from './index.module.css';
 
 const Home = () => {
   // 指定された初期ボード
-  const [Board, setBoard] = useState<number[][]>([
+  const Board = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ];
+  const [BombBoard, setBombBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -14,18 +25,7 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
-  const [BombBoard, setBombBoard] = useState<number[][]>([
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ]);
-  const [UserBoard, setUserBoard] = useState<number[][]>([
+  const [UserBoard, setUserBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -44,22 +44,25 @@ const Home = () => {
     while (bombCount < 10) {
       const bombY = Math.floor(Math.random() * 9);
       const bombX = Math.floor(Math.random() * 9);
-      if (newBombBoard[bombY][bombX] === 5 || (bombY === y && bombX === x)) continue;
-      newBombBoard[bombY][bombX] = 5;
+      if (newBombBoard[bombY][bombX] === 1 || (bombY === y && bombX === x)) continue;
+      newBombBoard[bombY][bombX] = 1;
       bombCount++;
     }
     return newBombBoard;
   };
 
   const clickHandler = (x: number, y: number) => {
+    if (BombBoard[y][x] === 1) {
+      return; // 爆弾の場合は何もしない
+    }
     if (isFirstClick) {
       const initialBombBoard = BombCreate(Board, x, y);
       setBombBoard(initialBombBoard);
       setIsFirstClick(false);
     }
-    const newBoard = structuredClone(Board);
-    newBoard[y][x] = BombBoard[y][x] === 5 ? -1 : 1; // 例として、爆弾なら -1、爆弾でなければ 1 に設定
-    setBoard(newBoard);
+    // const newBoard = structuredClone(Board);
+    // newBoard[y][x] = BombBoard[y][x] === 1 ? -1 : 1; // 例として、爆弾なら -1、爆弾でなければ 1 に設定
+    // setBoard(newBoard);
 
     // else {
     //   // 2回目以降のクリック
@@ -80,12 +83,11 @@ const Home = () => {
             {Board.map((row, y) =>
               row.map((cell, x) => (
                 <div
+                  className={styles.bomb}
                   key={`${y}-${x}`}
-                  className={styles.cellStyle}
                   onClick={() => clickHandler(x, y)}
-                >
-                  {cell}
-                </div>
+                  style={{ backgroundPosition: cell * -30 + 30 }}
+                />
               )),
             )}
           </div>
