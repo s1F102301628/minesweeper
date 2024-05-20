@@ -19,7 +19,7 @@
   border-bottom-color: #808080;
 }
 
-.scorebaseStyle {
+.scoreBaseStyle {
   position: absolute;
   top: 15px;
   left: 13px;
@@ -31,7 +31,7 @@
   border-bottom-color: #fff;
 }
 
-.timeboardStyle {
+.timeBoardStyle {
   position: absolute;
   top: 8px;
   left: 240px;
@@ -55,7 +55,7 @@
   border-bottom-color: #fff;
 }
 
-.resetboardStyle {
+.resetBoardStyle {
   position: absolute;
   top: 8px;
   left: 140px;
