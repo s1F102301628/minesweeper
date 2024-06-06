@@ -67,41 +67,34 @@
   border-bottom-color: #808080;
 }
 
-.boardWrapper {
-  position: relative;
-  top: 130px;
-  left: 13px;
-
-  .boardStyle {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    width: 360px;
-    height: 360px;
-    background-color: #c0c0c0;
-    border: 8px solid #808080;
-    border-right-color: #fff;
-    border-bottom-color: #fff;
-  }
-
-  .cellStyle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    background: url('~/src/assets/images/minesweeper-icons.png') no-repeat;
-    border: 5px solid #fff;
-    border-right-color: #808080;
-    border-bottom-color: #808080;
-  }
-}
-
 .bomb {
   width: 38px;
   height: 38px;
   background: url('~/src/assets/images/minesweeper-icons.png') no-repeat;
   background-position: -300px;
+  border: 5px solid #fff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+}
+
+.board {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  width: 360px;
+  height: 360px;
+  background-color: #c0c0c0;
+  border: 8px solid #808080;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+}
+
+.stone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
   border: 5px solid #fff;
   border-right-color: #808080;
   border-bottom-color: #808080;
