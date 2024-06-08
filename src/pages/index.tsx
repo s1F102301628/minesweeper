@@ -59,9 +59,7 @@ const Home = () => {
     row.some((input, x) => input === 1 && BombBoard[y][x] === 1),
   );
   const BombCreate = (x: number, y: number) => {
-    let bombCount = 0;
-    const newBombBoard = structuredClone(BombBoard);
-    while (bombCount < 10) {
+    for (let bombCount = 0; bombCount < 10; ) {
       const bombY = Math.floor(Math.random() * 9);
       const bombX = Math.floor(Math.random() * 9);
       if (newBombBoard[bombY][bombX] !== 1 && (bombY !== y || bombX !== x)) {
