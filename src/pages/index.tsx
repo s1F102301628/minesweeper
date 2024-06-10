@@ -135,13 +135,11 @@ const Home = () => {
           {Board.map((row, y) =>
             row.map((color, x) => (
               <div
-                className={styles.bomb}
+                className={`${color === -1 ? styles.stone : styles.bomb}`}
                 key={`${x}-${y}`}
                 onClick={() => onClick(x, y)}
                 style={{ backgroundPosition: color * -30 + 30 }}
-              >
-                {color === -1 && <div className={styles.stone} />}
-              </div>
+              />
             )),
           )}
         </div>
