@@ -58,6 +58,7 @@ const Home = () => {
   const isFailure = UserBoard.some((row, y) =>
     row.some((input, x) => input === 1 && BombBoard[y][x] === 1),
   );
+  //爆弾を作成する
   const BombCreate = (x: number, y: number) => {
     for (let bombCount = 0; bombCount < 10; ) {
       const bombY = Math.floor(Math.random() * 9);
@@ -68,7 +69,7 @@ const Home = () => {
       }
     }
   };
-
+  //マスの周りに爆弾があるのかを確認する
   const checkAround = (x: number, y: number) => {
     let AroundBombCount = 0;
     for (const dir of directions) {
@@ -106,29 +107,57 @@ const Home = () => {
       }
     }
   }
+  const onFaceClick = () => {
+    setBombBoard([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+    setUserBoard([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+  };
+  //マスをクリックした際にどうするのか
   const onClick = (x: number, y: number) => {
-    newUserBoard[y][x] = 1;
-    setUserBoard(newUserBoard);
-    if (!isPlaying) {
-      BombCreate(x, y);
-    }
-    let BombExist = false;
-    for (const row of BombBoard) {
-      for (const cell of row) {
-        if (cell === 1) {
-          BombExist = true;
-          break;
+    if (!isFailure) {
+      newUserBoard[y][x] = 1;
+      setUserBoard(newUserBoard);
+      if (!isPlaying) {
+        BombCreate(x, y);
+      }
+
+      let BombExist = false;
+      for (const row of BombBoard) {
+        for (const cell of row) {
+          if (cell === 1) {
+            BombExist = true;
+            break;
+          }
         }
       }
+      setBombBoard(newBombBoard);
     }
-    setBombBoard(newBombBoard);
   };
   return (
     <div className={styles.container}>
       <div className={styles.baseStyle}>
         <div className={styles.scoreBaseStyle}>
-          <div className={styles.resetBoardStyle} />
           <div className={styles.scoreboardStyle} />
+          <div onClick={onFaceClick} className={styles.resetBoardStyle} />
           <div className={styles.timeBoardStyle} />
         </div>
         <div className={styles.board}>

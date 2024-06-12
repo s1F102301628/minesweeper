@@ -10,6 +10,8 @@
 
 .baseStyle {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
   width: 400px;
   height: 520px;
@@ -19,12 +21,14 @@
   border-bottom-color: #808080;
 }
 
-/* .scoreBaseStyle {
+.scoreBaseStyle {
   top: 15px;
   left: 13px;
-  justify-content: center;
+  display: flex;
+  justify-content: space-between;
   width: 360px;
   height: 90px;
+  padding: 9px;
   background-color: #c0c0c0;
   border: 8px solid #808080;
   border-right-color: #fff;
@@ -34,6 +38,7 @@
 .timeBoardStyle {
   top: 8px;
   left: 240px;
+  display: flex;
   justify-content: center;
   width: 90px;
   height: 58px;
@@ -46,6 +51,7 @@
 .scoreboardStyle {
   top: 8px;
   left: 13px;
+  display: flex;
   justify-content: center;
   width: 90px;
   height: 58px;
@@ -58,37 +64,31 @@
 .resetBoardStyle {
   top: 8px;
   left: 140px;
+  display: flex;
   justify-content: center;
-  width: 60px;
-  height: 60px;
-  background-color: #c0c0c0;
-  border: 8px solid #fff;
+  width: 50px;
+  height: 50px;
+  background: url('~/src/assets/images/minesweeper-icons.png') no-repeat;
+  background-position: -330px;
+  border: 10px solid #fff;
   border-right-color: #808080;
   border-bottom-color: #808080;
-} */
+}
 
 .bomb {
   display: flex;
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   background: url('~/src/assets/images/minesweeper-icons.png') no-repeat;
   background-position: -300px;
   border: 3px solid #808080;
 }
 
-/* .brock {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-} */
-
 .board {
   display: flex;
   flex-wrap: wrap;
-  width: 376px;
-  height: 376px;
+  width: 331px;
+  height: 330px;
   background-color: #c0c0c0;
   border: 8px solid #808080;
   border-right-color: #fff;
@@ -99,8 +99,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   border: 5px solid #fff;
   border-right-color: #808080;
   border-bottom-color: #808080;
