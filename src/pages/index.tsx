@@ -107,6 +107,12 @@ const Home = () => {
       }
     }
   }
+
+  document.addEventListener('contextmenu', (event: MouseEvent) => {
+    // 右クリック時のコンテキストメニューを無効化
+    event.preventDefault();
+    console.log('右クリックのコンテキストメニューが無効化されました');
+  });
   const onFaceClick = () => {
     setBombBoard([
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
