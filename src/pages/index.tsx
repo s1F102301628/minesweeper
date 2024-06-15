@@ -55,7 +55,9 @@ const Home = () => {
   // 11 bomb
   const newBombBoard: number[][] = JSON.parse(JSON.stringify(BombBoard));
   const newUserBoard: (0 | 1 | 2 | 3)[][] = JSON.parse(JSON.stringify(UserBoard));
+  // ゲームが開始されているかどうかを判定（一つでも開いたセルがあればtrue）
   const isPlaying = UserBoard.some((row) => row.some((input) => input !== 0));
+  // ゲームオーバーかどうかを判定（爆弾のあるセルが開かれていればtrue）
   const isFailure = UserBoard.some((row, y) =>
     row.some((input, x) => input === 1 && BombBoard[y][x] === 1),
   );
@@ -87,6 +89,7 @@ const Home = () => {
       }
     }
   };
+  // 各セルの状態を更新
   for (let y = 0; y < 9; y++) {
     for (let x = 0; x < 9; x++) {
       if (UserBoard[y][x] === 1) {
@@ -98,7 +101,7 @@ const Home = () => {
       }
     }
   }
-  //爆弾をクリックしたら全部表示させる
+  // ゲームオーバー時に全ての爆弾を表示
   if (isFailure) {
     for (let y = 0; y < 9; y++) {
       for (let x = 0; x < 9; x++) {
@@ -108,7 +111,7 @@ const Home = () => {
       }
     }
   }
-
+  // リセットボタン（笑顔）がクリックされたときの処理
   const onFaceClick = () => {
     setBombBoard([
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -133,28 +136,8 @@ const Home = () => {
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
     ]);
   };
-  // //マスをクリックした際にどうするのか
-  // const onClick = (x: number, y: number) => {
-  //   if (!isFailure) {
-  //     newUserBoard[y][x] = 1;
-  //     setUserBoard(newUserBoard);
-  //     if (!isPlaying) {
-  //       BombCreate(x, y);
-  //     }
 
-  //     let BombExist = false;
-  //     for (const row of BombBoard) {
-  //       for (const cell of row) {
-  //         if (cell === 1) {
-  //           BombExist = true;
-  //           break;
-  //         }
-  //       }
-  //     }
-  //     setBombBoard(newBombBoard);
-  //   }
-  // };
-
+  // 左クリックと右クリックの両方に対応するコンポーネント
   const DualActionComponent: React.FC = () => {
     const handleLeftClick = (x: number, y: number) => (e: React.MouseEvent) => {
       // デフォルトの動作をキャンセル
@@ -236,7 +219,7 @@ const Home = () => {
 
     //   setUserBoard([...newUserBoard]); // 新しい配列を作成してステート更新
     // };
-
+    // 実際のレンダリング
     return (
       <div className={styles.container}>
         <div className={styles.baseStyle}>
@@ -274,3 +257,5 @@ const Home = () => {
 };
 
 export default Home;
+
+//問題点を見つけ改善しようとした
