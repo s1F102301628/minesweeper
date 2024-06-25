@@ -58,6 +58,7 @@ const Home = () => {
   const isFailure = UserBoard.some((row, y) =>
     row.some((input, x) => input === 1 && BombBoard[y][x] === 1),
   );
+  //爆弾作成
   const BombCreate = (x: number, y: number) => {
     for (let bombCount = 0; bombCount < 10; ) {
       const bombY = Math.floor(Math.random() * 9);
@@ -69,6 +70,7 @@ const Home = () => {
     }
   };
 
+  //周りを確かめていく
   const checkAround = (x: number, y: number) => {
     let AroundBombCount = 0;
     for (const dir of directions) {
@@ -96,39 +98,88 @@ const Home = () => {
       }
     }
   }
+  //リセットボタンの実装
+  const onFaceClick = () => {
+    setBombBoard([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+    setUserBoard([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+  };
   //爆弾をクリックしたら全部表示させる
   if (isFailure) {
     for (let y = 0; y < 9; y++) {
       for (let x = 0; x < 9; x++) {
         if (BombBoard[y][x] === 1) {
+          UserBoard[y][x] = 1;
           Board[y][x] = 11;
         }
       }
     }
   }
   const onClick = (x: number, y: number) => {
-    newUserBoard[y][x] = 1;
-    setUserBoard(newUserBoard);
-    if (!isPlaying) {
-      BombCreate(x, y);
-    }
-    let BombExist = false;
-    for (const row of BombBoard) {
-      for (const cell of row) {
-        if (cell === 1) {
-          BombExist = true;
-          break;
-        }
+    if (!isFailure && UserBoard[y][x] !== 2 && UserBoard[y][x] !== 3) {
+      newUserBoard[y][x] = 1;
+      setUserBoard(newUserBoard);
+      if (!isPlaying) {
+        BombCreate(x, y);
       }
+      // let BombExist = false;
+      // for (const row of BombBoard) {
+      //   for (const cell of row) {
+      //     if (cell === 1) {
+      //       BombExist = true;
+      //       break;
+      //     }
+      //   }
+      // }
     }
     setBombBoard(newBombBoard);
+  };
+  const onRightClick = (x: number, y: number, e: React.MouseEvent) => {
+    e.preventDefault(); // デフォルトの右クリックメニューを防ぐ
+    if (!isFailure && UserBoard[y][x] !== 1) {
+      const newUserBoard = JSON.parse(JSON.stringify(UserBoard));
+      // 0 → 2 → 3 → 0 のループを作成
+      switch (newUserBoard[y][x]) {
+        case 0:
+          newUserBoard[y][x] = 2; // 未クリック → フラグ
+          break;
+        case 2:
+          newUserBoard[y][x] = 3; // フラグ → ?マーク
+          break;
+        case 3:
+          newUserBoard[y][x] = 0; // ?マーク → 未クリック
+          break;
+        default:
+          newUserBoard[y][x] = 0; // 念のため
+      }
+      setUserBoard(newUserBoard);
+    }
   };
   return (
     <div className={styles.container}>
       <div className={styles.baseStyle}>
         <div className={styles.scoreBaseStyle}>
-          <div className={styles.resetBoardStyle} />
           <div className={styles.scoreboardStyle} />
+          <div onClick={onFaceClick} className={styles.resetBoardStyle} />
           <div className={styles.timeBoardStyle} />
         </div>
         <div className={styles.board}>
@@ -138,9 +189,12 @@ const Home = () => {
                 className={styles.bomb}
                 key={`${x}-${y}`}
                 onClick={() => onClick(x, y)}
+                onContextMenu={(e) => onRightClick(x, y, e)}
                 style={{ backgroundPosition: color * -30 + 30 }}
               >
-                {color === -1 && <div className={styles.stone} />}
+                {UserBoard[y][x] === 0 && color === -1 && <div className={styles.stone} />}
+                {UserBoard[y][x] === 2 && <div className={styles.flag} />}
+                {UserBoard[y][x] === 3 && <div className={styles.question} />}
               </div>
             )),
           )}
