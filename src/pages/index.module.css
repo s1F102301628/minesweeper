@@ -44,6 +44,9 @@
   justify-content: center;
   width: 90px;
   height: 58px;
+  font-family: 'VT323', monospace;
+  font-size: 51px;
+  color: red;
   background-color: #000;
   border: 3px solid #808080;
   border-right-color: #fff;
