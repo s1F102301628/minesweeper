@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './index.module.css';
 
 const Home = () => {
@@ -54,7 +54,7 @@ const Home = () => {
   // 11 bomb
   const newBombBoard: number[][] = JSON.parse(JSON.stringify(BombBoard));
   const newUserBoard: (0 | 1 | 2 | 3)[][] = JSON.parse(JSON.stringify(UserBoard));
-  const isPlaying = UserBoard.some((row) => row.some((input) => input !== 0));
+  const isPlaying = UserBoard.some((row) => row.some((input) => input === 1));
   const isFailure = UserBoard.some((row, y) =>
     row.some((input, x) => input === 1 && BombBoard[y][x] === 1),
   );
@@ -141,15 +141,6 @@ const Home = () => {
       if (!isPlaying) {
         BombCreate(x, y);
       }
-      // let BombExist = false;
-      // for (const row of BombBoard) {
-      //   for (const cell of row) {
-      //     if (cell === 1) {
-      //       BombExist = true;
-      //       break;
-      //     }
-      //   }
-      // }
     }
     setBombBoard(newBombBoard);
   };
@@ -174,11 +165,34 @@ const Home = () => {
       setUserBoard(newUserBoard);
     }
   };
+  // 旗の残り数を管理するstate
+  const [remainingFlags, setRemainingFlags] = useState(10);
+
+  // UserBoard が変更されるたびに旗の数を再計算
+  useEffect(() => {
+    // UserBoardを平坦化し、値が2（旗）のセルの数をカウント
+    const flagCount = UserBoard.flat().filter((cell) => cell === 2).length;
+    // 残りの旗の数を計算（10から使用された旗の数を引く）
+    setRemainingFlags(10 - flagCount);
+  }, [UserBoard]); // UserBoardが変更されるたびにこの効果を実行
+
+  // 数字を3桁の文字列に変換する関数（負の数は -01 のように表示）
+  const formatNumber = (num: number): string => {
+    if (num >= 0) {
+      // 正の数（0を含む）の場合、3桁で表示
+      return num.toString().padStart(3, '0');
+    } else {
+      // 負の数の場合、絶対値を2桁で表示し、前に'-'を付ける
+      const absNum = Math.abs(num);
+      return `-${absNum.toString().padStart(2, '0')}`;
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.baseStyle}>
         <div className={styles.scoreBaseStyle}>
-          <div className={styles.scoreboardStyle} />
+          <div className={styles.scoreboardStyle}>{formatNumber(remainingFlags)}</div>
           <div onClick={onFaceClick} className={styles.resetBoardStyle} />
           <div className={styles.timeBoardStyle} />
         </div>
@@ -205,4 +219,3 @@ const Home = () => {
 };
 
 export default Home;
-//進展なし
