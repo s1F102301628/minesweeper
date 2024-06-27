@@ -92,12 +92,17 @@
 }
 
 .bomb {
+  position: relative;
   display: flex;
   width: 35px;
   height: 35px;
   background: url('~/src/assets/images/minesweeper-icons.png') no-repeat;
   background-position: -300px;
   border: 3px solid #808080;
+}
+
+.clickedBomb {
+  background-color: red !important;
 }
 
 .flag {

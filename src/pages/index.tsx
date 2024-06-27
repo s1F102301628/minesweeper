@@ -59,6 +59,7 @@ const Home = () => {
   // 9 石＋はてな
   // 10 石＋旗
   // 11 bomb
+  // 12 クリックされたbomb
   const newBombBoard: number[][] = JSON.parse(JSON.stringify(BombBoard));
   const newUserBoard: (0 | 1 | 2 | 3)[][] = JSON.parse(JSON.stringify(UserBoard));
   const isPlaying = UserBoard.some((row) => row.some((input) => input === 1));
@@ -180,6 +181,9 @@ const Home = () => {
       if (!isPlaying) {
         BombCreate(x, y);
       }
+      if (BombBoard[y][x] === 1) {
+        Board[y][x] = 12;
+      }
     }
     setBombBoard(newBombBoard);
   };
@@ -239,7 +243,7 @@ const Home = () => {
           {Board.map((row, y) =>
             row.map((color, x) => (
               <div
-                className={styles.bomb}
+                className={`${styles.bomb} ${Board[y][x] === 12 ? styles.clickedBomb : ''}`}
                 key={`${x}-${y}`}
                 onClick={() => onClick(x, y)}
                 onContextMenu={(e) => onRightClick(x, y, e)}
