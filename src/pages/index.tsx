@@ -59,6 +59,7 @@ const Home = () => {
   // 9 石＋はてな
   // 10 石＋旗
   // 11 bomb
+  // 12 クリックされたbomb
   const newBombBoard: number[][] = JSON.parse(JSON.stringify(BombBoard));
   const newUserBoard: (0 | 1 | 2 | 3)[][] = JSON.parse(JSON.stringify(UserBoard));
   const isPlaying = UserBoard.some((row) => row.some((input) => input === 1));
@@ -171,7 +172,14 @@ const Home = () => {
   }
   const onClick = (x: number, y: number) => {
     if (isFailure) {
+<<<<<<< HEAD
       Board[y][x] = 25;
+=======
+      if (BombBoard[y][x] === 1) {
+        UserBoard[y][x] = 1;
+        Board[y][x] = 12;
+      }
+>>>>>>> 2dcbda4a52fa1af21cd5778bafeba6ec535d9ade
     }
     if (!isFailure && UserBoard[y][x] !== 2 && UserBoard[y][x] !== 3) {
       // まだゲームが開始されていない場合、開始状態にする
@@ -207,17 +215,6 @@ const Home = () => {
       setUserBoard(newUserBoard);
     }
   };
-  // 旗の残り数を管理するstate
-  const [remainingFlags, setRemainingFlags] = useState(10);
-
-  // UserBoard が変更されるたびに旗の数を計算しなおす
-  useEffect(() => {
-    // UserBoardを平坦化し、値が2（旗）のセルの数をカウント
-    const flagCount = UserBoard.flat().filter((cell) => cell === 2).length;
-    // 残りの旗の数を計算（10から使用された旗の数を引く）
-    setRemainingFlags(10 - flagCount);
-  }, [UserBoard]); // UserBoardが変更されるたびにこの効果を実行
-
   // 数字を3桁の文字列に変換する関数（負の数は -01 のように表示）
   const formatNumber = (num: number): string => {
     if (num >= 0) {
@@ -230,11 +227,20 @@ const Home = () => {
     }
   };
 
+  // 旗の数を計算する関数
+  const calculateRemainingFlags = () => {
+    // UserBoardを平坦化し、値が2（旗）のセルの数をカウント
+    const flagCount = UserBoard.flat().filter((cell) => cell === 2).length;
+
+    // 残りの旗の数を計算（10から使用された旗の数を引く）
+    return 10 - flagCount;
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.baseStyle}>
         <div className={styles.scoreBaseStyle}>
-          <div className={styles.scoreboardStyle}>{formatNumber(remainingFlags)}</div>
+          <div className={styles.scoreboardStyle}>{formatNumber(calculateRemainingFlags())}</div>
           <div onClick={onFaceClick} className={styles.resetBoardStyle} />
           <div className={styles.timeBoardStyle}>{formatNumber(time)}</div>
         </div>
@@ -242,7 +248,7 @@ const Home = () => {
           {Board.map((row, y) =>
             row.map((color, x) => (
               <div
-                className={styles.bomb}
+                className={`${styles.bomb} ${color === 12 ? styles.clickedBomb : ''}`}
                 key={`${x}-${y}`}
                 onClick={() => onClick(x, y)}
                 onContextMenu={(e) => onRightClick(x, y, e)}
