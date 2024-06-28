@@ -59,7 +59,7 @@ const Home = () => {
   // 9 石＋はてな
   // 10 石＋旗
   // 11 bomb
-  // 12 クリックされたbomb
+  // 25 クリックされたbomb
   const newBombBoard: number[][] = JSON.parse(JSON.stringify(BombBoard));
   const newUserBoard: (0 | 1 | 2 | 3)[][] = JSON.parse(JSON.stringify(UserBoard));
   const isPlaying = UserBoard.some((row) => row.some((input) => input === 1));
@@ -172,14 +172,10 @@ const Home = () => {
   }
   const onClick = (x: number, y: number) => {
     if (isFailure) {
-<<<<<<< HEAD
-      Board[y][x] = 25;
-=======
       if (BombBoard[y][x] === 1) {
         UserBoard[y][x] = 1;
-        Board[y][x] = 12;
+        Board[y][x] = 25;
       }
->>>>>>> 2dcbda4a52fa1af21cd5778bafeba6ec535d9ade
     }
     if (!isFailure && UserBoard[y][x] !== 2 && UserBoard[y][x] !== 3) {
       // まだゲームが開始されていない場合、開始状態にする
