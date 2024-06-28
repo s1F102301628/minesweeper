@@ -170,6 +170,9 @@ const Home = () => {
     }
   }
   const onClick = (x: number, y: number) => {
+    if (isFailure) {
+      Board[y][x] = 25;
+    }
     if (!isFailure && UserBoard[y][x] !== 2 && UserBoard[y][x] !== 3) {
       // まだゲームが開始されていない場合、開始状態にする
       if (!isGameStarted) {
