@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './index.module.css';
 
 const Home = () => {
+  //モードを選ぶボタン
   // 指定された初期ボード
   const Board = [
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -172,7 +173,7 @@ const Home = () => {
   }
   const onClick = (x: number, y: number) => {
     if (isFailure) {
-      if (BombBoard[y][x] === 1) {
+      {
         UserBoard[y][x] = 1;
         Board[y][x] = 25;
       }
@@ -234,6 +235,12 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.botanBaseStyle}>
+        <div className={styles.syokyuStyle}>初級</div>
+        <div className={styles.tyukyuStyle}>中級</div>
+        <div className={styles.jyoukyuStyle}>上級</div>
+        <div className={styles.kasutamuStyle}>カスタム</div>
+      </div>
       <div className={styles.baseStyle}>
         <div className={styles.scoreBaseStyle}>
           <div className={styles.scoreboardStyle}>{formatNumber(calculateRemainingFlags())}</div>

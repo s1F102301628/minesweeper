@@ -10,6 +10,41 @@
   padding: 0 0.5rem;
 }
 
+.botanBaseStyle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 400px;
+}
+
+.syokyuStyle {
+  display: flex;
+  justify-content: center;
+  padding: 5%;
+  cursor: pointer;
+}
+
+.tyukyuStyle {
+  display: flex;
+  justify-content: center;
+  padding: 5%;
+  cursor: pointer;
+}
+
+.jyoukyuStyle {
+  display: flex;
+  justify-content: center;
+  padding: 5%;
+  cursor: pointer;
+}
+
+.kasutamuStyle {
+  display: flex;
+  justify-content: center;
+  padding: 5%;
+  cursor: pointer;
+}
+
 .baseStyle {
   display: flex;
   flex-wrap: wrap;
