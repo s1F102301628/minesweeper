@@ -2,7 +2,19 @@ import { useState, useEffect } from 'react';
 import styles from './index.module.css';
 
 const Home = () => {
-  //モードを選ぶボタン
+  // //モード
+  // const [gameMode, setGameMode] = useState<'beginner' | 'intermediate' | 'expert' | 'custom'>(
+  //   'beginner',
+  // );
+
+  // //それぞれのモードのマスの大きさを指定
+  // const gameModes = {
+  //   beginner: { rows: 9, cols: 9, bombs: 10 },
+  //   intermediate: { rows: 16, cols: 16, bombs: 40 },
+  //   expert: { rows: 16, cols: 30, bombs: 99 },
+  //   custom: { rows: 9, cols: 9, bombs: 10 }, // カスタムモードの初期値
+  // };
+
   // 指定された初期ボード
   const Board = [
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -236,10 +248,18 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.botanBaseStyle}>
-        <div className={styles.syokyuStyle}>初級</div>
-        <div className={styles.tyukyuStyle}>中級</div>
-        <div className={styles.jyoukyuStyle}>上級</div>
-        <div className={styles.kasutamuStyle}>カスタム</div>
+        {/* <div className={styles.syokyuStyle} onClick={() => handleModeChange('beginner')}>
+          初級
+        </div>
+        <div className={styles.tyukyuStyle} onClick={() => handleModeChange('intermediate')}>
+          中級
+        </div>
+        <div className={styles.jyoukyuStyle} onClick={() => handleModeChange('expert')}>
+          上級
+        </div>
+        <div className={styles.kasutamuStyle} onClick={() => handleModeChange('custom')}>
+          カスタム
+        </div> */}
       </div>
       <div className={styles.baseStyle}>
         <div className={styles.scoreBaseStyle}>
