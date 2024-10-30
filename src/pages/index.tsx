@@ -116,7 +116,7 @@ const Home = () => {
   const checkAround = (x: number, y: number) => {
     let AroundBombCount = 0;
     //空白連鎖で開いた部分の右クリックを無効化
-    UserBoard[y][x] = 1;
+    newUserBoard[y][x] = 1;
     for (const dir of directions) {
       if (Board[y + dir[1]] !== undefined && Board[y + dir[1]][x + dir[0]] !== undefined) {
         AroundBombCount += BombBoard[y + dir[1]][x + dir[0]];
@@ -133,7 +133,7 @@ const Home = () => {
   };
   for (let y = 0; y < 9; y++) {
     for (let x = 0; x < 9; x++) {
-      if (UserBoard[y][x] === 1) {
+      if (newUserBoard[y][x] === 1) {
         if (BombBoard[y][x] === 1) {
           Board[y][x] = 11;
         } else {
@@ -184,11 +184,9 @@ const Home = () => {
     }
   }
   const onClick = (x: number, y: number) => {
+    // ゲームオーバーの場合は、クリックを無視して何も実行しない
     if (isFailure) {
-      {
-        UserBoard[y][x] = 1;
-        Board[y][x] = 25;
-      }
+      return; // ここで関数の実行を終了
     }
     if (!isFailure && UserBoard[y][x] !== 2 && UserBoard[y][x] !== 3) {
       // まだゲームが開始されていない場合、開始状態にする
