@@ -178,7 +178,7 @@ const Home = () => {
       for (let x = 0; x < 9; x++) {
         if (BombBoard[y][x] === 1) {
           UserBoard[y][x] = 1;
-          Board[y][x] = 11;
+          Board[y][x] = 12;
         }
       }
     }
@@ -203,7 +203,7 @@ const Home = () => {
   };
   const onRightClick = (x: number, y: number, e: React.MouseEvent) => {
     e.preventDefault(); // デフォルトの右クリックメニューを防ぐ
-    if (!isFailure && UserBoard[y][x] !== 1) {
+    if (!isFailure && newUserBoard[y][x] !== 1) {
       const newUserBoard = JSON.parse(JSON.stringify(UserBoard));
       // 0 → 2 → 3 → 0 のループを作成
       switch (newUserBoard[y][x]) {
