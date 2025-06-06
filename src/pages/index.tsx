@@ -56,6 +56,8 @@ const Home = () => {
   // ゲームが開始されたかどうかを管理するstate
   const [isGameStarted, setIsGameStarted] = useState(false);
 
+  const [isWin, setIsWin] = useState(false);
+
   const directions = [
     [-1, 0],
     [-1, -1],
@@ -170,6 +172,7 @@ const Home = () => {
     setIsGameStarted(false);
     // タイマーを0にリセット
     setTime(0);
+    setIsWin(false);
   };
 
   //爆弾をクリックしたら全部表示させる
@@ -188,6 +191,10 @@ const Home = () => {
     if (isFailure) {
       return; // ここで関数の実行を終了
     }
+    if (isWin) {
+      return;
+    }
+
     if (!isFailure && UserBoard[y][x] !== 2 && UserBoard[y][x] !== 3) {
       // まだゲームが開始されていない場合、開始状態にする
       if (!isGameStarted) {
@@ -200,9 +207,27 @@ const Home = () => {
       }
     }
     setBombBoard(newBombBoard);
+    if (checkWin()) {
+      setIsWin(true);
+      setIsGameStarted(false); // タイマー停止
+
+      // 全非爆弾マスを強制的に表示（オプション）
+      const revealedBoard = JSON.parse(JSON.stringify(UserBoard));
+      for (let y = 0; y < 9; y++) {
+        for (let x = 0; x < 9; x++) {
+          if (BombBoard[y][x] === 0) {
+            revealedBoard[y][x] = 1;
+          }
+        }
+      }
+      setUserBoard(revealedBoard);
+    }
   };
   const onRightClick = (x: number, y: number, e: React.MouseEvent) => {
     e.preventDefault(); // デフォルトの右クリックメニューを防ぐ
+    if (isWin) {
+      return;
+    }
     if (!isFailure && newUserBoard[y][x] !== 1) {
       const newUserBoard = JSON.parse(JSON.stringify(UserBoard));
       // 0 → 2 → 3 → 0 のループを作成
@@ -222,6 +247,18 @@ const Home = () => {
       setUserBoard(newUserBoard);
     }
   };
+
+  const checkWin = () => {
+    for (let y = 0; y < 9; y++) {
+      for (let x = 0; x < 9; x++) {
+        if (BombBoard[y][x] === 0 && UserBoard[y][x] !== 1) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   // 数字を3桁の文字列に変換する関数（負の数は -01 のように表示）
   const formatNumber = (num: number): string => {
     if (num >= 0) {
@@ -242,6 +279,29 @@ const Home = () => {
     // 残りの旗の数を計算（10から使用された旗の数を引く）
     return 10 - flagCount;
   };
+  useEffect(() => {
+    if (!isFailure) {
+      let allOpened = true;
+      for (let y = 0; y < 9; y++) {
+        for (let x = 0; x < 9; x++) {
+          if (BombBoard[y][x] === 0 && UserBoard[y][x] !== 1) {
+            allOpened = false;
+            break;
+          }
+        }
+      }
+
+      if (allOpened) {
+        setIsWin(true);
+        setIsGameStarted(false);
+      }
+    }
+  }, [UserBoard, BombBoard, isFailure]);
+  useEffect(() => {
+    if (isWin) {
+      alert('おめでとう！ゲームクリア！');
+    }
+  }, [isWin]);
 
   return (
     <div className={styles.container}>
@@ -273,7 +333,7 @@ const Home = () => {
                 key={`${x}-${y}`}
                 onClick={() => onClick(x, y)}
                 onContextMenu={(e) => onRightClick(x, y, e)}
-                style={{ backgroundPosition: color * -30 + 30 }}
+                style={{ backgroundPosition: `${(color - 1) * -30}px 0px` }}
               >
                 {UserBoard[y][x] === 0 && color === -1 && <div className={styles.stone} />}
                 {UserBoard[y][x] === 2 && <div className={styles.flag} />}

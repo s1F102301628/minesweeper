@@ -131,8 +131,8 @@
   display: flex;
   width: 35px;
   height: 35px;
-  background: url('~/src/assets/images/minesweeper-icons.png') no-repeat;
-  background-position: -300px;
+  background: url('/images/minesweeper-icons.png') no-repeat;
+  background-position: -300px 0;
   border: 3px solid #808080;
 }
 
@@ -141,7 +141,7 @@
   display: flex;
   width: 35px;
   height: 35px;
-  background: url('~/src/assets/images/minesweeper-icons.png') no-repeat;
+  background: url('/images/minesweeper-icons.png') no-repeat;
   background-color: red !important;
   border: 3px solid #808080;
 }
@@ -150,7 +150,7 @@
   display: flex;
   width: 35px;
   height: 35px;
-  background: url('~/src/assets/images/minesweeper-icons.png') no-repeat;
+  background: url('/images/minesweeper-icons.png') no-repeat;
   background-position: -270px;
   border: 5px solid #fff;
   border-right-color: #808080;
