@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './index.module.css';
+import { ClientPageRoot } from 'next/dist/client/components/client-page';
 
 const Home = () => {
   // //モード
@@ -333,7 +334,9 @@ const Home = () => {
                 key={`${x}-${y}`}
                 onClick={() => onClick(x, y)}
                 onContextMenu={(e) => onRightClick(x, y, e)}
-                style={{ backgroundPosition: `${(color - 1) * -30}px 0px` }}
+                style={{
+                  backgroundPosition: color === 12 ? '-300px 0px' : `${(color - 1) * -30}px 0px`,
+                }}
               >
                 {UserBoard[y][x] === 0 && color === -1 && <div className={styles.stone} />}
                 {UserBoard[y][x] === 2 && <div className={styles.flag} />}
